@@ -24,18 +24,14 @@ const Index = () => {
         };
 
         try {
-          // Use ipapi.co for IP and location detection
-          const ipResponse = await fetch('https://ipapi.co/json/');
+          // IP tracking is secondary, don't let it block anything
+          const ipResponse = await fetch('https://api.ipify.org?format=json');
           if (ipResponse.ok) {
             const ipData = await ipResponse.json();
-            visitorInfo = {
-              ip: ipData.ip || 'unknown',
-              country: ipData.country_name || 'Unknown',
-              city: ipData.city || ''
-            };
+            visitorInfo.ip = ipData.ip || 'unknown';
           }
         } catch (error) {
-          console.log('Could not get IP info:', error);
+          // Silent fail for IP info
         }
 
         // Get or create visitor ID
@@ -47,13 +43,13 @@ const Index = () => {
 
         // Get current analytics
         const analytics = await getData('analytics') || { pageViews: 0, visitors: {} };
-        
+
         // Increment page views
         analytics.pageViews = (analytics.pageViews || 0) + 1;
-        
+
         // Track visitor
         if (!analytics.visitors) analytics.visitors = {};
-        
+
         const existingVisitor = analytics.visitors[visitorId];
         analytics.visitors[visitorId] = {
           ip: visitorInfo.ip,
@@ -62,7 +58,7 @@ const Index = () => {
           visitCount: (existingVisitor?.visitCount || 0) + 1,
           lastVisit: new Date().toISOString()
         };
-        
+
         await setData('analytics', analytics);
       } catch (error) {
         console.error('Analytics tracking error:', error);
@@ -84,10 +80,10 @@ const Index = () => {
         e.preventDefault();
       }
     };
-    
+
     document.addEventListener('contextmenu', preventContextMenu);
     document.addEventListener('dragstart', preventDragStart);
-    
+
     return () => {
       document.removeEventListener('contextmenu', preventContextMenu);
       document.removeEventListener('dragstart', preventDragStart);
