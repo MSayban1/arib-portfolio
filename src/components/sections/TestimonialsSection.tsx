@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useTestimonials } from '@/hooks/useFirebaseData';
-import { Star, Quote, Send } from 'lucide-react';
+import { Star, Quote, Send, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { pushData } from '@/lib/firebase';
 import { toast } from '@/hooks/use-toast';
 import {
