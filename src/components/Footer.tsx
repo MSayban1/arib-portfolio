@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useSocialLinks, useCreatorInfo } from '@/hooks/useFirebaseData';
 import { Mail, Linkedin, Facebook, Instagram } from 'lucide-react';
-import sabanLogo from '@/assets/saban-productions.png';
+
 
 const Footer = () => {
   const { socialLinks } = useSocialLinks();
@@ -27,7 +27,7 @@ const Footer = () => {
           <p className="text-muted-foreground mb-6">
             Digital Marketing Specialist | Helping brands grow online
           </p>
-          
+
           <div className="flex justify-center gap-4 mb-8">
             {socialIcons.map((social) => (
               <motion.a
@@ -43,7 +43,7 @@ const Footer = () => {
               </motion.a>
             ))}
           </div>
-          
+
           <div className="pt-6 border-t border-border">
             <div className="flex items-center justify-center gap-2 mb-2">
               <span className="text-sm text-muted-foreground">Developed by</span>
@@ -53,13 +53,6 @@ const Footer = () => {
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors font-semibold"
               >
-                <img 
-                  src={sabanLogo} 
-                  alt="SABAN PRODUCTIONS" 
-                  className="h-6 w-6 rounded object-contain"
-                  draggable={false}
-                  onContextMenu={(e) => e.preventDefault()}
-                />
                 SABAN PRODUCTIONS
               </a>
             </div>
