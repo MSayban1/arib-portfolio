@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  auth, 
-  login, 
-  logout, 
+import {
+  auth,
+  login,
+  logout,
   subscribeToAuth,
   getData,
   setData,
@@ -25,15 +25,15 @@ import {
   CreatorInfo
 } from '@/lib/firebase';
 import { User } from 'firebase/auth';
-import { 
-  LogOut, 
-  User as UserIcon, 
-  Settings, 
-  Briefcase, 
-  FolderOpen, 
-  MessageSquare, 
-  FileText, 
-  Mail, 
+import {
+  LogOut,
+  User as UserIcon,
+  Settings,
+  Briefcase,
+  FolderOpen,
+  MessageSquare,
+  FileText,
+  Mail,
   BarChart3,
   Plus,
   Trash2,
@@ -61,7 +61,7 @@ const AdminPage = () => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('profile');
-  
+
   // Auth state
   const [authEmail, setAuthEmail] = useState('');
   const [authPassword, setAuthPassword] = useState('');
@@ -104,7 +104,7 @@ const AdminPage = () => {
         getData('socialLinks'),
         getData('creatorInfo')
       ]);
-      
+
       setProfile(profileData);
       setSkills(skillsData ? Object.entries(skillsData).map(([id, s]) => ({ id, ...(s as Skill) })) : []);
       setServices(servicesData ? Object.entries(servicesData).map(([id, s]) => ({ id, ...(s as Service) })) : []);
@@ -127,8 +127,8 @@ const AdminPage = () => {
       await login(authEmail, authPassword);
       toast({ title: "Welcome Back", description: "You're now logged in." });
     } catch (error: any) {
-      toast({ 
-        title: "Authentication Error", 
+      toast({
+        title: "Authentication Error",
         description: error.message,
         variant: "destructive"
       });
@@ -239,11 +239,10 @@ const AdminPage = () => {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-xl whitespace-nowrap transition-all ${
-                activeTab === tab.id 
-                  ? 'bg-primary text-primary-foreground' 
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl whitespace-nowrap transition-all ${activeTab === tab.id
+                  ? 'bg-primary text-primary-foreground'
                   : 'bg-secondary hover:bg-muted'
-              }`}
+                }`}
             >
               <tab.icon size={18} />
               <span>{tab.label}</span>
@@ -324,7 +323,8 @@ const ProfileEditor = ({ profile, socialLinks, creatorInfo, onUpdate }: { profil
   });
   const [creator, setCreator] = useState<CreatorInfo>({
     name: creatorInfo?.name || 'SABAN PRODUCTIONS',
-    link: creatorInfo?.link || ''
+    link: creatorInfo?.link || '',
+    logo: creatorInfo?.logo || ''
   });
   const [saving, setSaving] = useState(false);
 
@@ -364,7 +364,7 @@ const ProfileEditor = ({ profile, socialLinks, creatorInfo, onUpdate }: { profil
   return (
     <div className="space-y-6">
       <h2 className="text-xl font-semibold">Edit Profile</h2>
-      
+
       {/* Banner Image Section */}
       <div className="space-y-4">
         <label className="block text-sm font-medium mb-2">Banner Image (Hero Background)</label>
@@ -383,7 +383,7 @@ const ProfileEditor = ({ profile, socialLinks, creatorInfo, onUpdate }: { profil
           </label>
         </div>
       </div>
-      
+
       <div className="grid md:grid-cols-2 gap-6">
         <div className="space-y-4">
           <div>
@@ -405,7 +405,7 @@ const ProfileEditor = ({ profile, socialLinks, creatorInfo, onUpdate }: { profil
               </label>
             </div>
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium mb-2">Name</label>
             <input
@@ -415,7 +415,7 @@ const ProfileEditor = ({ profile, socialLinks, creatorInfo, onUpdate }: { profil
               className="input-modern"
             />
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium mb-2">Headline 1</label>
             <input
@@ -425,7 +425,7 @@ const ProfileEditor = ({ profile, socialLinks, creatorInfo, onUpdate }: { profil
               className="input-modern"
             />
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium mb-2">Headline 2</label>
             <input
@@ -436,7 +436,7 @@ const ProfileEditor = ({ profile, socialLinks, creatorInfo, onUpdate }: { profil
             />
           </div>
         </div>
-        
+
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium mb-2">Intro Text</label>
@@ -447,7 +447,7 @@ const ProfileEditor = ({ profile, socialLinks, creatorInfo, onUpdate }: { profil
               className="input-modern resize-none"
             />
           </div>
-          
+
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium mb-2">Years Experience</label>
@@ -538,6 +538,16 @@ const ProfileEditor = ({ profile, socialLinks, creatorInfo, onUpdate }: { profil
               placeholder="https://example.com"
             />
           </div>
+          <div>
+            <label className="block text-sm font-medium mb-2">Creator Logo (Direct Link URL)</label>
+            <input
+              type="url"
+              value={creator.logo}
+              onChange={(e) => setCreator({ ...creator, logo: e.target.value })}
+              className="input-modern"
+              placeholder="https://example.com/logo.png"
+            />
+          </div>
         </div>
       </div>
 
@@ -570,7 +580,7 @@ const SkillsEditor = ({ skills, onUpdate }: { skills: Skill[]; onUpdate: () => v
   return (
     <div className="space-y-6">
       <h2 className="text-xl font-semibold">Manage Skills</h2>
-      
+
       <div className="flex gap-2 flex-wrap">
         <input
           type="text"
@@ -649,7 +659,7 @@ const ServicesEditor = ({ services, onUpdate }: { services: Service[]; onUpdate:
   return (
     <div className="space-y-6">
       <h2 className="text-xl font-semibold">Manage Services</h2>
-      
+
       <div className="card-elevated p-4 space-y-4">
         <div className="grid md:grid-cols-2 gap-4">
           <input
@@ -746,7 +756,7 @@ const ProjectsEditor = ({ projects, onUpdate }: { projects: Project[]; onUpdate:
   return (
     <div className="space-y-6">
       <h2 className="text-xl font-semibold">Manage Portfolio</h2>
-      
+
       <div className="card-elevated p-4 space-y-4">
         <div className="grid md:grid-cols-2 gap-4">
           <input
@@ -842,7 +852,7 @@ const TestimonialsEditor = ({ testimonials, onUpdate }: { testimonials: Testimon
   return (
     <div className="space-y-6">
       <h2 className="text-xl font-semibold">Manage Testimonials</h2>
-      
+
       {/* Add New Testimonial Form */}
       <div className="card-elevated p-4 space-y-4">
         <h3 className="font-medium">Add New Testimonial</h3>
@@ -867,7 +877,7 @@ const TestimonialsEditor = ({ testimonials, onUpdate }: { testimonials: Testimon
             )}
           </div>
         </div>
-        
+
         <div>
           <label className="block text-sm font-medium mb-2">Rating</label>
           <div className="flex gap-2">
@@ -886,7 +896,7 @@ const TestimonialsEditor = ({ testimonials, onUpdate }: { testimonials: Testimon
             ))}
           </div>
         </div>
-        
+
         <textarea
           placeholder="Client Feedback"
           value={form.feedback}
@@ -894,12 +904,12 @@ const TestimonialsEditor = ({ testimonials, onUpdate }: { testimonials: Testimon
           rows={3}
           className="input-modern resize-none"
         />
-        
+
         <button onClick={handleAdd} className="btn-primary">
           <Plus size={18} className="mr-2" /> Add Testimonial
         </button>
       </div>
-      
+
       {/* Existing Testimonials */}
       <div className="space-y-4">
         {testimonials.map((t) => (
@@ -1013,7 +1023,7 @@ const ServiceReviewsEditor = ({ services, onUpdate }: { services: Service[]; onU
   return (
     <div className="space-y-6">
       <h2 className="text-xl font-semibold">Manage Service Reviews</h2>
-      
+
       {/* Service Selector */}
       <div>
         <label className="block text-sm font-medium mb-2">Select Service</label>
@@ -1055,7 +1065,7 @@ const ServiceReviewsEditor = ({ services, onUpdate }: { services: Service[]; onU
                 )}
               </div>
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium mb-2">Rating</label>
               <div className="flex gap-2">
@@ -1074,7 +1084,7 @@ const ServiceReviewsEditor = ({ services, onUpdate }: { services: Service[]; onU
                 ))}
               </div>
             </div>
-            
+
             <textarea
               placeholder="Review Feedback"
               value={form.feedback}
@@ -1082,7 +1092,7 @@ const ServiceReviewsEditor = ({ services, onUpdate }: { services: Service[]; onU
               rows={3}
               className="input-modern resize-none"
             />
-            
+
             <button onClick={handleAdd} className="btn-primary">
               <Plus size={18} className="mr-2" /> Add Review
             </button>
@@ -1175,7 +1185,7 @@ const PostsEditor = ({ posts, onUpdate }: { posts: Post[]; onUpdate: () => void 
   return (
     <div className="space-y-6">
       <h2 className="text-xl font-semibold">Manage Posts</h2>
-      
+
       <div className="card-elevated p-4 space-y-4">
         <input
           type="text"
@@ -1241,7 +1251,7 @@ const RequestsViewer = ({ hireRequests, contacts, services, onUpdate }: { hireRe
   const pendingRequests = hireRequests.filter(r => r.status === 'pending').length;
   const contactedRequests = hireRequests.filter(r => r.status === 'contacted').length;
   const completedRequests = hireRequests.filter(r => r.status === 'completed').length;
-  
+
   // Requests per service
   const requestsByService = services.map(service => ({
     service,
@@ -1305,11 +1315,10 @@ const RequestsViewer = ({ hireRequests, contacts, services, onUpdate }: { hireRe
                   <select
                     value={req.status}
                     onChange={(e) => handleUpdateStatus(req.id!, e.target.value as 'pending' | 'contacted' | 'completed')}
-                    className={`text-xs px-2 py-1 rounded-full border-0 cursor-pointer ${
-                      req.status === 'pending' ? 'bg-yellow-500/20 text-yellow-600' :
-                      req.status === 'contacted' ? 'bg-blue-500/20 text-blue-600' :
-                      'bg-green-500/20 text-green-600'
-                    }`}
+                    className={`text-xs px-2 py-1 rounded-full border-0 cursor-pointer ${req.status === 'pending' ? 'bg-yellow-500/20 text-yellow-600' :
+                        req.status === 'contacted' ? 'bg-blue-500/20 text-blue-600' :
+                          'bg-green-500/20 text-green-600'
+                      }`}
                   >
                     <option value="pending">Pending</option>
                     <option value="contacted">Contacted</option>
@@ -1341,7 +1350,12 @@ const RequestsViewer = ({ hireRequests, contacts, services, onUpdate }: { hireRe
               <div className="flex justify-between items-start mb-2">
                 <div>
                   <h4 className="font-semibold">{contact.name}</h4>
-                  <p className="text-sm text-muted-foreground">{contact.email}</p>
+                  <div className="flex flex-col text-sm text-muted-foreground">
+                    <p>{contact.email}</p>
+                    {contact.companyOrWebsite && (
+                      <p className="text-primary font-medium">{contact.companyOrWebsite}</p>
+                    )}
+                  </div>
                 </div>
                 {!contact.read && (
                   <button onClick={() => handleMarkRead(contact.id!)} className="text-xs bg-primary/20 text-primary px-2 py-1 rounded-full hover:bg-primary/30">
@@ -1403,7 +1417,7 @@ const DataExporter = ({
 
   const generatePDF = async () => {
     setGenerating(true);
-    
+
     try {
       const doc = new jsPDF();
       const pageWidth = doc.internal.pageSize.getWidth();
@@ -1421,7 +1435,7 @@ const DataExporter = ({
       // Helper function to draw bar chart
       const drawBarChart = (data: { label: string; value: number; color?: string }[], x: number, y: number, width: number, height: number, title: string) => {
         checkNewPage(height + 30);
-        
+
         // Title
         doc.setFontSize(12);
         doc.setFont('helvetica', 'bold');
@@ -1467,16 +1481,16 @@ const DataExporter = ({
       // ===== HEADER =====
       doc.setFillColor(99, 102, 241);
       doc.rect(0, 0, pageWidth, 40, 'F');
-      
+
       doc.setTextColor(255, 255, 255);
       doc.setFontSize(24);
       doc.setFont('helvetica', 'bold');
       doc.text('Website Analytics Report', pageWidth / 2, 20, { align: 'center' });
-      
+
       doc.setFontSize(12);
       doc.setFont('helvetica', 'normal');
       doc.text(`Generated on ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}`, pageWidth / 2, 32, { align: 'center' });
-      
+
       doc.setTextColor(0, 0, 0);
       yPos = 55;
 
@@ -1662,7 +1676,7 @@ const DataExporter = ({
       // ===== REQUESTS SECTION =====
       doc.addPage();
       yPos = 20;
-      
+
       doc.setFontSize(16);
       doc.setFont('helvetica', 'bold');
       doc.text('Hiring Requests Summary', 14, yPos);
@@ -1883,7 +1897,7 @@ const DataExporter = ({
 
       // Collect unique client emails
       const clientEmailMap = new Map<string, { email: string; source: string; date: string; name: string }>();
-      
+
       contacts.forEach((contact) => {
         const key = contact.email.toLowerCase();
         if (!clientEmailMap.has(key) || new Date(contact.date) > new Date(clientEmailMap.get(key)!.date)) {
@@ -1895,7 +1909,7 @@ const DataExporter = ({
           });
         }
       });
-      
+
       hireRequests.forEach((request) => {
         const key = request.email.toLowerCase();
         const existing = clientEmailMap.get(key);
@@ -1909,7 +1923,7 @@ const DataExporter = ({
         }
       });
 
-      const clientEmails = Array.from(clientEmailMap.values()).sort((a, b) => 
+      const clientEmails = Array.from(clientEmailMap.values()).sort((a, b) =>
         new Date(b.date).getTime() - new Date(a.date).getTime()
       );
 
@@ -1946,7 +1960,7 @@ const DataExporter = ({
 
       // Save PDF
       doc.save(`website-report-${new Date().toISOString().split('T')[0]}.pdf`);
-      
+
       toast({ title: "PDF Generated!", description: "Your complete data report has been downloaded." });
     } catch (error) {
       console.error('PDF generation error:', error);
@@ -2103,7 +2117,7 @@ const EmailListViewer = ({ hireRequests, contacts }: { hireRequests: HireRequest
   // Collect unique emails from both contacts and hire requests
   const emailList = React.useMemo(() => {
     const emailMap = new Map<string, { email: string; source: string; date: string; name: string }>();
-    
+
     // Add emails from contact submissions
     contacts.forEach((contact) => {
       const key = contact.email.toLowerCase();
@@ -2116,7 +2130,7 @@ const EmailListViewer = ({ hireRequests, contacts }: { hireRequests: HireRequest
         });
       }
     });
-    
+
     // Add emails from hire requests
     hireRequests.forEach((request) => {
       const key = request.email.toLowerCase();
@@ -2135,8 +2149,8 @@ const EmailListViewer = ({ hireRequests, contacts }: { hireRequests: HireRequest
         });
       }
     });
-    
-    return Array.from(emailMap.values()).sort((a, b) => 
+
+    return Array.from(emailMap.values()).sort((a, b) =>
       new Date(b.date).getTime() - new Date(a.date).getTime()
     );
   }, [contacts, hireRequests]);
@@ -2144,17 +2158,17 @@ const EmailListViewer = ({ hireRequests, contacts }: { hireRequests: HireRequest
   const downloadEmailListPDF = () => {
     const doc = new jsPDF();
     const pageWidth = doc.internal.pageSize.getWidth();
-    
+
     // Header
     doc.setFontSize(20);
     doc.setTextColor(79, 70, 229);
     doc.text('Client Email List', pageWidth / 2, 20, { align: 'center' });
-    
+
     doc.setFontSize(10);
     doc.setTextColor(100, 100, 100);
     doc.text(`Generated on ${new Date().toLocaleDateString()}`, pageWidth / 2, 28, { align: 'center' });
     doc.text(`Total Emails: ${emailList.length}`, pageWidth / 2, 34, { align: 'center' });
-    
+
     // Email Table
     autoTable(doc, {
       startY: 45,
@@ -2177,7 +2191,7 @@ const EmailListViewer = ({ hireRequests, contacts }: { hireRequests: HireRequest
         4: { cellWidth: 30 }
       }
     });
-    
+
     // Footer
     const pageCount = doc.getNumberOfPages();
     for (let i = 1; i <= pageCount; i++) {
@@ -2186,7 +2200,7 @@ const EmailListViewer = ({ hireRequests, contacts }: { hireRequests: HireRequest
       doc.setTextColor(150);
       doc.text(`Page ${i} of ${pageCount}`, pageWidth / 2, doc.internal.pageSize.getHeight() - 10, { align: 'center' });
     }
-    
+
     doc.save('client-email-list.pdf');
     toast({ title: "Downloaded!", description: "Email list PDF has been saved." });
   };
@@ -2294,7 +2308,7 @@ const AdminsManager = ({ currentUserEmail }: { currentUserEmail: string }) => {
           id,
           ...(admin as AdminUser)
         }));
-        setAdmins(adminsList.sort((a, b) => 
+        setAdmins(adminsList.sort((a, b) =>
           new Date(b.addedAt).getTime() - new Date(a.addedAt).getTime()
         ));
       } else {
@@ -2327,10 +2341,10 @@ const AdminsManager = ({ currentUserEmail }: { currentUserEmail: string }) => {
       setNewPassword('');
       setShowAddForm(false);
     } catch (error: any) {
-      toast({ 
-        title: "Error", 
-        description: error.message || "Failed to add admin.", 
-        variant: "destructive" 
+      toast({
+        title: "Error",
+        description: error.message || "Failed to add admin.",
+        variant: "destructive"
       });
     } finally {
       setAdding(false);
@@ -2339,10 +2353,10 @@ const AdminsManager = ({ currentUserEmail }: { currentUserEmail: string }) => {
 
   const handleRemoveAdmin = async (admin: AdminUser) => {
     if (admin.email === currentUserEmail) {
-      toast({ 
-        title: "Cannot Remove", 
-        description: "You cannot remove yourself as admin.", 
-        variant: "destructive" 
+      toast({
+        title: "Cannot Remove",
+        description: "You cannot remove yourself as admin.",
+        variant: "destructive"
       });
       return;
     }
@@ -2560,7 +2574,7 @@ const AnalyticsDashboard = ({ hireRequests, contacts }: { hireRequests: HireRequ
     <div className="space-y-6">
       <h2 className="text-xl font-semibold">Analytics Dashboard</h2>
       <p className="text-sm text-muted-foreground">Real-time visitor tracking & request analytics</p>
-      
+
       {/* Visitor Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="card-elevated p-4 text-center">
@@ -2611,7 +2625,7 @@ const AnalyticsDashboard = ({ hireRequests, contacts }: { hireRequests: HireRequ
           <Globe size={20} className="text-primary" />
           Recent Visitors ({visitorsList.length})
         </h3>
-        
+
         <div className="space-y-3 max-h-96 overflow-y-auto">
           {visitorsList.length > 0 ? (
             visitorsList.slice(0, 100).map((visitor) => (

@@ -16,6 +16,11 @@ export const contactFormSchema = z.object({
     .min(1, 'Email is required')
     .email('Invalid email address')
     .max(255, 'Email must be less than 255 characters'),
+  companyOrWebsite: z
+    .string()
+    .trim()
+    .max(200, 'Company/Website must be less than 200 characters')
+    .optional(),
   message: z
     .string()
     .trim()
@@ -86,7 +91,7 @@ export const authFormSchema = z.object({
  */
 export const sanitizeString = (input: string): string => {
   if (!input || typeof input !== 'string') return '';
-  
+
   return input
     .trim()
     // Remove null bytes
@@ -112,7 +117,7 @@ export const sanitizeString = (input: string): string => {
  */
 export const sanitizeForDisplay = (input: string): string => {
   if (!input || typeof input !== 'string') return '';
-  
+
   return input
     .trim()
     .replace(/\0/g, '')
@@ -125,12 +130,12 @@ export const sanitizeForDisplay = (input: string): string => {
  */
 export const sanitizeEmail = (email: string): string => {
   if (!email || typeof email !== 'string') return '';
-  
+
   const trimmed = email.trim().toLowerCase();
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  
+
   if (!emailRegex.test(trimmed)) return '';
-  
+
   return encodeURIComponent(trimmed);
 };
 
@@ -139,12 +144,12 @@ export const sanitizeEmail = (email: string): string => {
  */
 export const sanitizeUrl = (url: string): string => {
   if (!url || typeof url !== 'string') return '#';
-  
+
   const trimmed = url.trim();
-  
+
   // Only allow http, https, and mailto protocols
   const allowedProtocols = ['http:', 'https:', 'mailto:'];
-  
+
   try {
     const parsed = new URL(trimmed);
     if (!allowedProtocols.includes(parsed.protocol)) {
@@ -183,23 +188,23 @@ export const checkRateLimit = (
 ): boolean => {
   const now = Date.now();
   const entry = rateLimitStore.get(key);
-  
+
   if (!entry) {
     rateLimitStore.set(key, { count: 1, firstRequest: now });
     return true;
   }
-  
+
   // Reset if window has passed
   if (now - entry.firstRequest > windowMs) {
     rateLimitStore.set(key, { count: 1, firstRequest: now });
     return true;
   }
-  
+
   // Check if limit exceeded
   if (entry.count >= maxAttempts) {
     return false;
   }
-  
+
   // Increment count
   entry.count += 1;
   rateLimitStore.set(key, entry);
@@ -212,7 +217,7 @@ export const checkRateLimit = (
 export const getRateLimitResetTime = (key: string, windowMs: number = 60000): number => {
   const entry = rateLimitStore.get(key);
   if (!entry) return 0;
-  
+
   const elapsed = Date.now() - entry.firstRequest;
   return Math.max(0, windowMs - elapsed);
 };
@@ -227,14 +232,14 @@ export const validateContentLength = (
   maxLength: number
 ): { valid: boolean; message?: string } => {
   if (!content) return { valid: true };
-  
+
   if (content.length > maxLength) {
     return {
       valid: false,
       message: `Content exceeds maximum length of ${maxLength} characters`,
     };
   }
-  
+
   return { valid: true };
 };
 
@@ -243,20 +248,20 @@ export const validateContentLength = (
  */
 export const checkForSpam = (content: string): boolean => {
   if (!content) return false;
-  
+
   const spamPatterns = [
     /\b(buy now|click here|act now|limited time|winner|congratulations|you've won)\b/gi,
     /(https?:\/\/[^\s]+){5,}/gi, // Multiple URLs
     /(.)\1{10,}/g, // Repeated characters
     /\b[A-Z]{20,}\b/g, // Long uppercase strings
   ];
-  
+
   return spamPatterns.some((pattern) => pattern.test(content));
 };
 
 // ============= Form Validation Helper =============
 
-export type ValidationResult<T> = 
+export type ValidationResult<T> =
   | { success: true; data: T }
   | { success: false; errors: Record<string, string> };
 
@@ -268,17 +273,17 @@ export const validateForm = <T>(
   data: unknown
 ): ValidationResult<T> => {
   const result = schema.safeParse(data);
-  
+
   if (result.success) {
     return { success: true, data: result.data };
   }
-  
+
   const errors: Record<string, string> = {};
   result.error.errors.forEach((err) => {
     const path = err.path.join('.');
     errors[path] = err.message;
   });
-  
+
   return { success: false, errors };
 };
 

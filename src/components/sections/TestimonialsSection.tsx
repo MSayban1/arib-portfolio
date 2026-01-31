@@ -175,7 +175,7 @@ const TestimonialsSection = () => {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="max-w-lg mx-auto"
+          className="max-w-lg mx-auto mt-8"
         >
           {!showForm ? (
             <button

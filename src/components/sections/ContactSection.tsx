@@ -4,10 +4,10 @@ import { useSocialLinks } from '@/hooks/useFirebaseData';
 import { Mail, Linkedin, Facebook, Instagram, Send, MapPin, Clock } from 'lucide-react';
 import { pushData } from '@/lib/firebase';
 import { toast } from '@/hooks/use-toast';
-import { 
-  contactFormSchema, 
-  validateForm, 
-  checkRateLimit, 
+import {
+  contactFormSchema,
+  validateForm,
+  checkRateLimit,
   getRateLimitResetTime,
   sanitizeForDisplay,
   checkForSpam
@@ -15,7 +15,7 @@ import {
 
 const ContactSection = () => {
   const { socialLinks } = useSocialLinks();
-  const [form, setForm] = useState({ name: '', email: '', message: '' });
+  const [form, setForm] = useState({ name: '', email: '', companyOrWebsite: '', message: '' });
   const [submitting, setSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -63,6 +63,7 @@ const ContactSection = () => {
       await pushData('contacts', {
         name: sanitizeForDisplay(form.name),
         email: form.email.trim().toLowerCase(),
+        companyOrWebsite: sanitizeForDisplay(form.companyOrWebsite || ''),
         message: sanitizeForDisplay(form.message),
         date: new Date().toISOString(),
         read: false
@@ -71,7 +72,7 @@ const ContactSection = () => {
         title: "Message Sent!",
         description: "Thank you for reaching out. I'll get back to you soon!",
       });
-      setForm({ name: '', email: '', message: '' });
+      setForm({ name: '', email: '', companyOrWebsite: '', message: '' });
     } catch (error) {
       toast({
         title: "Error",
@@ -180,7 +181,7 @@ const ContactSection = () => {
           >
             <form onSubmit={handleSubmit} className="card-elevated p-6 space-y-4">
               <h3 className="text-xl font-semibold mb-4">Send a Message</h3>
-              
+
               <div>
                 <label className="block text-sm font-medium mb-2">Name</label>
                 <input
@@ -191,7 +192,7 @@ const ContactSection = () => {
                   className="input-modern"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium mb-2">Email</label>
                 <input
@@ -202,7 +203,18 @@ const ContactSection = () => {
                   className="input-modern"
                 />
               </div>
-              
+
+              <div>
+                <label className="block text-sm font-medium mb-2">Your Website / Company (Optional)</label>
+                <input
+                  type="text"
+                  placeholder="https://example.com or Company Ltd"
+                  value={form.companyOrWebsite}
+                  onChange={(e) => setForm({ ...form, companyOrWebsite: e.target.value })}
+                  className="input-modern"
+                />
+              </div>
+
               <div>
                 <label className="block text-sm font-medium mb-2">Message</label>
                 <textarea
@@ -213,7 +225,7 @@ const ContactSection = () => {
                   className="input-modern resize-none"
                 />
               </div>
-              
+
               <motion.button
                 type="submit"
                 disabled={submitting}

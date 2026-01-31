@@ -53,7 +53,10 @@ const Footer = () => {
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors font-semibold"
               >
-                SABAN PRODUCTIONS
+                {creatorInfo.logo && (
+                  <img src={creatorInfo.logo} alt={creatorInfo.name} className="h-5 w-auto object-contain" />
+                )}
+                {creatorInfo.name || 'SABAN PRODUCTIONS'}
               </a>
             </div>
             <p className="text-xs text-muted-foreground mt-2">

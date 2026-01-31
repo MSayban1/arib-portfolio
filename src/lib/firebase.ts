@@ -154,6 +154,7 @@ export interface ContactSubmission {
   id?: string;
   name: string;
   email: string;
+  companyOrWebsite?: string;
   message: string;
   date: string;
   read: boolean;
@@ -182,4 +183,5 @@ export interface Analytics {
 export interface CreatorInfo {
   name: string;
   link: string;
+  logo?: string;
 }
