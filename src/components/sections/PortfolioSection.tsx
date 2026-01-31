@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useProjects } from '@/hooks/useFirebaseData';
-import { ExternalLink, Folder } from 'lucide-react';
+import { ExternalLink, Folder, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const PortfolioSection = () => {
   const { projects, loading } = useProjects();
@@ -37,7 +38,7 @@ const PortfolioSection = () => {
         </motion.div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project, index) => (
+          {projects.slice(0, 3).map((project, index) => (
             <motion.div
               key={project.id}
               className="card-elevated overflow-hidden group"
@@ -79,6 +80,18 @@ const PortfolioSection = () => {
             </motion.div>
           ))}
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-12 text-center"
+        >
+          <Link to="/portfolio" className="btn-outline inline-flex items-center gap-2">
+            Explore All Work
+            <ArrowRight size={18} />
+          </Link>
+        </motion.div>
       </div>
     </section>
   );

@@ -38,7 +38,7 @@ const ServicesSection = () => {
         </motion.div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {services.map((service, index) => (
+          {services.slice(0, 4).map((service, index) => (
             <Link key={service.id} to={`/service/${service.id}`}>
               <motion.div
                 className="card-elevated overflow-hidden group cursor-pointer h-full"
@@ -72,6 +72,18 @@ const ServicesSection = () => {
             </Link>
           ))}
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-12 text-center"
+        >
+          <Link to="/services" className="btn-outline inline-flex items-center gap-2">
+            Explore All Services
+            <ArrowRight size={18} />
+          </Link>
+        </motion.div>
       </div>
     </section>
   );

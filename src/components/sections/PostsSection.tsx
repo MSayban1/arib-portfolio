@@ -86,6 +86,18 @@ const PostsSection = () => {
             </Link>
           ))}
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-12 text-center"
+        >
+          <Link to="/posts" className="btn-outline inline-flex items-center gap-2">
+            Explore All Posts
+            <ArrowRight size={18} />
+          </Link>
+        </motion.div>
       </div>
     </section>
   );
