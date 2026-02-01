@@ -73,7 +73,7 @@ const Navigation = () => {
           <a href="/#about" onClick={handleNameClick} className="flex items-center gap-3 cursor-pointer">
             <img
               src={HEADER_PROFILE_PICTURE}
-              alt="Profile"
+              alt="Muhammad Arib - Digital Marketing Expert"
               className="w-9 h-9 rounded-full object-cover border-2 border-primary/30"
             />
             <span className="text-xl font-bold gradient-text">Muhammad Arib</span>

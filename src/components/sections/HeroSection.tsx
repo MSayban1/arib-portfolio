@@ -51,12 +51,12 @@ const HeroSection = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/80 to-background" />
         </div>
       )}
-      
+
       {/* Background gradient (fallback if no banner) */}
       {!profile.bannerImage && (
         <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-card" />
       )}
-      
+
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
@@ -105,7 +105,7 @@ const HeroSection = () => {
               {profile.picture ? (
                 <img
                   src={profile.picture}
-                  alt={profile.name}
+                  alt="Muhammad Arib - Digital Marketing Expert"
                   className="w-full h-full object-cover"
                 />
               ) : (
