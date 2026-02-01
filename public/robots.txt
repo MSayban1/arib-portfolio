@@ -13,4 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://marib.website/sitemap.xml
+Sitemap: https://www.marib.website/sitemap.xml
