@@ -13,7 +13,7 @@ const navItems = [
   { icon: Mail, label: 'Contact', href: '/#contact' },
 ];
 
-const HEADER_PROFILE_PICTURE = 'https://i.postimg.cc/TpKz0HBt/arib.png';
+const HEADER_PROFILE_PICTURE = 'https://i.postimg.cc/JD16G5Y1/unnamed.png';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -63,18 +63,17 @@ const Navigation = () => {
     <>
       {/* Top Navigation Bar */}
       <motion.nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled ? 'bg-background/95 backdrop-blur-lg border-b border-border shadow-lg' : ''
-        }`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-background/95 backdrop-blur-lg border-b border-border shadow-lg' : ''
+          }`}
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.5 }}
       >
         <div className="section-container py-4 flex items-center justify-between">
           <a href="/#about" onClick={handleNameClick} className="flex items-center gap-3 cursor-pointer">
-            <img 
-              src={HEADER_PROFILE_PICTURE} 
-              alt="Profile" 
+            <img
+              src={HEADER_PROFILE_PICTURE}
+              alt="Profile"
               className="w-9 h-9 rounded-full object-cover border-2 border-primary/30"
             />
             <span className="text-xl font-bold gradient-text">Muhammad Arib</span>

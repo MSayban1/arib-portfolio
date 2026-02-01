@@ -1,18 +1,10 @@
 import { motion } from 'framer-motion';
 import { usePosts } from '@/hooks/useFirebaseData';
-import { Calendar, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const PostsSection = () => {
   const { posts, loading } = usePosts();
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric'
-    });
-  };
 
   if (loading) {
     return (
@@ -67,10 +59,6 @@ const PostsSection = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
                 </div>
                 <div className="p-6">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
-                    <Calendar size={14} />
-                    {formatDate(post.date)}
-                  </div>
                   <h3 className="text-lg font-semibold mb-2 group-hover:text-primary transition-colors line-clamp-2">
                     {post.title}
                   </h3>

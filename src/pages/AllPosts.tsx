@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Calendar, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { usePosts } from '@/hooks/useFirebaseData';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -9,14 +9,6 @@ import { Link } from 'react-router-dom';
 const AllPosts = () => {
     const { posts, loading } = usePosts();
     const navigate = useNavigate();
-
-    const formatDate = (dateString: string) => {
-        return new Date(dateString).toLocaleDateString('en-US', {
-            month: 'short',
-            day: 'numeric',
-            year: 'numeric'
-        });
-    };
 
     if (loading) {
         return (
@@ -78,10 +70,6 @@ const AllPosts = () => {
                                         <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
                                     </div>
                                     <div className="p-6">
-                                        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
-                                            <Calendar size={14} />
-                                            {formatDate(post.date)}
-                                        </div>
                                         <h3 className="text-lg font-semibold mb-2 group-hover:text-primary transition-colors line-clamp-2">
                                             {post.title}
                                         </h3>
