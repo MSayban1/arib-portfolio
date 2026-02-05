@@ -11,7 +11,15 @@
       "destination": "/robots.txt"
     },
     {
+      "source": "/assets/(.*)",
+      "destination": "/assets/$1"
+    },
+    {
       "source": "/((?!api/|sitemap\\.xml|robots\\.txt|.*\\..*).*)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ],
